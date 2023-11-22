@@ -4,6 +4,55 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Swap from './component/swap';
+import { styled } from '@mui/material/styles';
+import '../trade/trade.css'
+
+
+interface StyledTabsProps {
+  children?: React.ReactNode;
+  value: number;
+  onChange: (event: React.SyntheticEvent, newValue: number) => void;
+}
+
+const StyledTabs = styled((props: StyledTabsProps) => (
+  <Tabs
+    {...props}
+    TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
+  />
+))({
+  '& .MuiTabs-indicator': {
+    display: 'flex',
+    justifyContent: 'center',
+    backgroundColor: 'transparent',
+  },
+  '& .MuiTabs-indicatorSpan': {
+    maxWidth: 20,
+    width: '100%',
+    backgroundColor: '#000',
+  },
+});
+interface StyledTabProps {
+  label: string;
+}
+
+const StyledTab = styled((props: StyledTabProps) => (
+  <Tab disableRipple {...props} />
+))(({ theme }) => ({
+  textTransform: 'none',
+  fontSize: theme.typography.pxToRem(12),
+  marginRight: theme.spacing(-5),
+  color: '#000',
+  '&.Mui-selected': {
+    color: '#000',
+  },
+  '&.Mui-focusVisible': {
+    backgroundColor: '#000',
+  },
+}));
+
+
+
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -46,19 +95,23 @@ export default function BasicTabs() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ fontSize:1, borderColor: 'divider', "& button:hover": { color: 'black' }, ".Mui-selected": {color: `black`,}}}>
-        <Tabs TabIndicatorProps={{ sx: { backgroundColor: 'black'} }} value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab  label="Maker" {...a11yProps(0)} />
-          <Tab label="Swap" {...a11yProps(1)} />
-        </Tabs>
-      </Box>
+    <Box className ='ahsd' sx={{ width: '100%' , display: 'block'}}>
+      <Box sx={{bgcolor:'#fff', width:'100%', marginTop: 2}}>
+      <StyledTabs
+          value={value}
+          onChange={handleChange}
+          aria-label="styled tabs example"
+        >
+          <StyledTab label="Traker ?" />
+          <StyledTab label="Swap" />
+        </StyledTabs>
       <CustomTabPanel value={value} index={0}>
-        Item One
+        maker
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Item Two
+      <Swap/>
       </CustomTabPanel>
+      </Box>
     </Box>
   );
 }
